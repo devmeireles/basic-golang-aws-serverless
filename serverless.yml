@@ -1,0 +1,30 @@
+#created using sls create -t aws-go-mod --path golang --name golang
+service: golang
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: go1.x
+  lambdaHashingVersion: 20201221
+
+package:
+  patterns:
+    - "!./**"
+    - ./bin/**
+
+functions:
+  createUpdateUser:
+    handler: bin/createUpdateUser
+    events:
+      - http:
+          path: /user
+          method: post
+  getUser:
+    handler: bin/getUser
+    events:
+      - http:
+          path: /user
+          method: get
+plugins:
+  - serverless-offline
